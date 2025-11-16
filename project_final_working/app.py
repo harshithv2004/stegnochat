@@ -11,52 +11,52 @@ app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
 
 # ---------------- Data Management ----------------
-def load_users():
-    try:
-        with open('users.json', 'r') as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return []
+# def load_users():
+#     try:
+#         with open('users.json', 'r') as f:
+#             return json.load(f)
+#     except FileNotFoundError:
+#         return []
 
-def save_users(users):
-    with open('users.json', 'w') as f:
-        json.dump(users, f)
+# def save_users(users):
+#     with open('users.json', 'w') as f:
+#         json.dump(users, f)
 
-def load_chats():
-    try:
-        with open('chats.json', 'r') as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return []
+# def load_chats():
+#     try:
+#         with open('chats.json', 'r') as f:
+#             return json.load(f)
+#     except FileNotFoundError:
+#         return []
 
-def save_chats(chats):
-    with open('chats.json', 'w') as f:
-        json.dump(chats, f)
+# def save_chats(chats):
+#     with open('chats.json', 'w') as f:
+#         json.dump(chats, f)
 
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+# def allowed_file(filename):
+#     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
-def save_as_png(uploaded_file):
-    """
-    Save uploaded image as PNG in the uploads folder.
-    Returns the new PNG filename (safe).
-    """
-    filename = secure_filename(uploaded_file.filename)
-    temp_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-    uploaded_file.save(temp_path)
+# def save_as_png(uploaded_file):
+#     """
+#     Save uploaded image as PNG in the uploads folder.
+#     Returns the new PNG filename (safe).
+#     """
+#     filename = secure_filename(uploaded_file.filename)
+#     temp_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+#     uploaded_file.save(temp_path)
 
-    # Convert to PNG to avoid lossy formats breaking LSB
-    img = Image.open(temp_path)
-    img = img.convert('RGB')
-    png_filename = os.path.splitext(filename)[0] + '.png'
-    png_path = os.path.join(app.config['UPLOAD_FOLDER'], png_filename)
-    img.save(png_path, format='PNG')
+#     # Convert to PNG to avoid lossy formats breaking LSB
+#     img = Image.open(temp_path)
+#     img = img.convert('RGB')
+#     png_filename = os.path.splitext(filename)[0] + '.png'
+#     png_path = os.path.join(app.config['UPLOAD_FOLDER'], png_filename)
+#     img.save(png_path, format='PNG')
 
-    # Clean up original if it was not png
-    if temp_path != png_path and os.path.exists(temp_path):
-        os.remove(temp_path)
+#     # Clean up original if it was not png
+#     if temp_path != png_path and os.path.exists(temp_path):
+#         os.remove(temp_path)
 
-    return png_filename, png_path
+#     return png_filename, png_path
 
 # ---------------- Routes ----------------
 @app.route('/')
